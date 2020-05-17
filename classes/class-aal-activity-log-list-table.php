@@ -96,7 +96,7 @@ class AAL_Activity_Log_List_Table extends WP_List_Table {
 		$this->_caps = apply_filters(
 			'aal_init_caps',
 			array(
-				'administrator' => array( 'administrator', 'editor', 'author', 'guest' ),
+				'administrator' => array_map( 'strtolower', array_keys( get_editable_roles() ) ),
 				'editor'        => array( 'editor', 'author', 'guest' ),
 				'author'        => array( 'author', 'guest' ),
 			)

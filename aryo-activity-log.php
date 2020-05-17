@@ -40,6 +40,7 @@ include( 'classes/class-aal-notifications.php' );
 include( 'classes/class-aal-help.php' );
 include( 'classes/class-aal-export.php' );
 include( 'classes/class-aal-privacy.php' );
+include( 'classes/class-aal-roles.php' );
 include( 'classes/abstract-class-aal-exporter.php' );
 
 // Integrations
@@ -91,6 +92,12 @@ final class AAL_Main {
 		load_plugin_textdomain( 'aryo-activity-log' );
 	}
 
+	public function hook_rules() {
+		global $wp_roles;
+
+		$wp_roles = new AAL_Roles();
+	}
+
 	/**
 	 * Construct
 	 */
@@ -109,7 +116,8 @@ final class AAL_Main {
 		// set up our DB name
 		$wpdb->activity_log = $wpdb->prefix . 'aryo_activity_log';
 		
-		add_action( 'plugins_loaded', array( &$this, 'load_textdomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+		add_action( 'init', array( $this, 'hook_rules' ), 0 );
 	}
 
 	/**
